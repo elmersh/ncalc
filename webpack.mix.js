@@ -1,13 +1,22 @@
 let mix = require('laravel-mix');
 require('laravel-mix-tailwind');
 
-mix.setPublicPath('dist/assets');
-mix.js('src/js/app.js', 'dist/assets')
-    .sass('src/scss/app.scss', 'dist/assets')
+
+mix.js('src/js/app.js', 'js')
+   .sass('src/scss/app.scss', 'css')
+   .setPublicPath('dist')
     .options({
         processCssUrls: false
     })
-    .tailwind();
+    .tailwind()
+    .version()
+    .browserSync({
+        proxy: "http://gcalc.test",
+        files: [
+            "views/templates/**/*.tpl",
+            "./**/*.php"
+        ]
+    }); // Hot reloading
 
 if (mix.inProduction()) {
     mix.version();

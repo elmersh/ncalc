@@ -1,7 +1,7 @@
 module.exports = {
   mode: 'jit',
   purge: [
-      './dist/**/*.php'
+      './views/templates/**/*.tpl'
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -10,5 +10,8 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+      require('@tailwindcss/forms'),
+      require('@tailwindcss/typography')
+  ],
 }

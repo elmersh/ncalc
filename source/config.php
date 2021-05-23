@@ -4,12 +4,12 @@ return [
         'path' => $_SERVER['DOCUMENT_ROOT']
     ],
     'database' => [
-        'dbname' => 'trabajacion',
+        'dbname' => 'gcalc',
         'username' => 'elmer',
         'password' => '',
         'connection' => 'pgsql:host=127.0.0.1',
         'options' => [
-            PDO::ERRMODE_WARNING,
+            PDO::ERRMODE_EXCEPTION,
             PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
         ]
     ]

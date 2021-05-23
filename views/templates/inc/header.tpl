@@ -1,3 +1,3 @@
-<section class="header">
+<header class="bg-white shadow-sm lg:static lg:overflow-y-visible">
     {include file="./navbar.tpl"}
-</section>
+</header>

@@ -7,5 +7,3 @@ if(isset($_POST['nombre'])) {
 } else {
     $smarty->display('admin/add-materia.tpl');
 }
-
-
