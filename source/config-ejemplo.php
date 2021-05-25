@@ -4,8 +4,8 @@ return [
         'path' => $_SERVER['DOCUMENT_ROOT']
     ],
     'database' => [
-        'dbname' => 'gcalc',
-        'username' => 'elmer',
+        'dbname' => '',
+        'username' => '',
         'password' => '',
         'connection' => 'pgsql:host=127.0.0.1',
         'options' => [
