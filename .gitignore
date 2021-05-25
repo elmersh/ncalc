@@ -3,3 +3,4 @@
 /views/cache/
 /views/templates_c/
 .idea/
+source/config.php
