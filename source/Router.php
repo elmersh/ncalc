@@ -3,8 +3,11 @@
 class Router
 {
   private static $tpl;
-  public function __construct($tpl) {
+  private static $u;
+
+  public function __construct($tpl, $u) {
     self::$tpl = $tpl;
+    self::$u = $u;
   }
     public $routes = [
         'GET' => [],
@@ -23,7 +26,7 @@ class Router
 
     public static function load($file)
     {
-        $router = new static(self::$tpl);
+        $router = new static(self::$tpl, self::$u);
 
         require $file;
 
@@ -51,6 +54,6 @@ class Router
         );
       }
 
-      return (new $controller(self::$tpl))->$action();
+      return (new $controller(self::$tpl, self::$u))->$action();
     }
 }

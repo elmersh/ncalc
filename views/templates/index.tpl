@@ -1,8 +1,9 @@
 {extends file="inc/theme.tpl"}
 {$title = "home"}
+{$active = "home"}
+
 {block name=content}
-    <h1>Lista de materias</h1>
-    {foreach $materias as $id => $materia}
-        <div>{$materia.id} - <a href="/materia/{$materia.id}">{$materia.nombre}</a> - {$materia.codigo}</div>
-    {/foreach}
+    <div class="content">
+        <h1 class="text-center">Bienvenido a nCalc</h1>
+    </div>
 {/block}

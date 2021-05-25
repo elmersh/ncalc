@@ -38,6 +38,26 @@ class Db
         return $consulta;
     }
 
+     public function userInfo($table, $email){
+      $sql = "select * from {$table} where email = :email";
+      $valores = [':email' => $email];
+      $consulta = $this->pdo->prepare($sql);
+
+      $consulta->execute($valores);
+
+        return $consulta;
+    }
+    public function borrar($table, $id){
+      $sql = "delete from {$table} where id = :id";
+      $valores = [':id' => $id];
+      $consulta = $this->pdo->prepare($sql);
+
+      try{
+        $consulta->execute($valores);
+      } catch (Exception $e) {
+        dd($e);
+      }
+    }
     public function guardar($table, $parametros) {
       $sql = sprintf(
         'insert into %s (%s) values (%s)',
@@ -49,6 +69,7 @@ class Db
       try {
         $consulta = $this->pdo->prepare($sql);
         $consulta->execute($parametros);
+        return $this->pdo->lastInsertId();
       } catch (Exception $e) {
         die('Recorcholis! algo salió mal!');
       }
