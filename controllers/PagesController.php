@@ -1,4 +1,8 @@
 <?php
+use function ezsql\functions\eq;
+use function ezsql\functions\leftJoin;
+use function ezsql\functions\set_table;
+use function ezsql\functions\where;
 
 class PagesController
 {
@@ -13,46 +17,65 @@ class PagesController
 
   public function home()
   {
-    if(isset($_SESSION['id'])) {
-      header('Location: /dashboard');
-    }
+    (!isset($_SESSION['id'])) ?: header('Location: /dashboard');
 
     $this->tpl->display('index.tpl');
   }
+  
   public function dashboard()
   {
+    (isset($_SESSION['id'])) ?: header('Location: /ingresar');
+      global $db;
+    set_table('materias');
     if(!isset($this->u['id'])) {
       header('Location: /ingresar');
     }
+    $results = $db->selecting('*',
+    leftJoin('materias', 'notas', 'id', 'id_materia', 'mats', '='),
+    where(eq('materias.id_usuario', $this->u['id']))
+  );
+  
+    if(isset($results)) {
+      $data = array();
+
+      foreach ($results as $row) {
+        $data[$row->nombre][$row->unidad]['unidad'] = $row->unidad;
+        $data[$row->nombre][$row->unidad]['nota'] = $row->nota;
+      }
+
+      $this->tpl->assign('results', $data);
+    }
     $this->tpl->display('dashboard.tpl');
   }
+
   /*
    * Login usuario
    */
   public function ingresar() {
+    (!isset($_SESSION['id'])) ?: header('Location: /dashboard');
+      global $db;
     $errors = [];
     if(isset($_POST['email']) && isset($_POST['clave'])) {
       $email = trim($_POST['email']);
       $clave = trim($_POST['clave']);
       (filter_var($email, FILTER_VALIDATE_EMAIL)) ?: $errors[] = "Email no válido";
-      $consulta = App::get('db')->userInfo('usuarios', $email);
-      $usuario = $consulta->fetch();
 
-      if(isset($usuario['clave'])){
-        (password_verify($clave, $usuario['clave']) == true)
+      $usuario = $db->select('usuarios', 'id, clave, nombre, id_rango', eq('email', $email));
+
+      if(isset($usuario[0]->clave)){
+        (password_verify($clave, $usuario[0]->clave) == true)
         ?:$errors[] = "Usuario o contraseña no válidos";
       } else {
         $errors[] = "Usuario o contraseña no válidos";
       }
 
       if(empty($errors)) {
-        $errors[] = $consulta->rowCount();
           session_regenerate_id();
-         $_SESSION['autenticado'] = TRUE;
-         $_SESSION['id'] = $usuario['id'];
-         $_SESSION['email'] = $email;
-         $_SESSION['nombre'] = $usuario['nombre'];
-
+        $_SESSION['autenticado'] = true;
+        $_SESSION['id'] = $usuario[0]->id;
+        $_SESSION['email'] = $email;
+        $_SESSION['nombre'] = $usuario[0]->nombre;
+        $_SESSION['is_admin'] = ($usuario[0]->id_rango == 4)?true:false;
           header('Location: /dashboard');
       }
     }
@@ -62,7 +85,6 @@ class PagesController
     }
       $this->tpl->assign('errors', $errors);
       $this->tpl->display('login.tpl');
-
   }
 
   /*
@@ -81,7 +103,8 @@ class PagesController
    * Registro de usuario
    */
   public function registro() {
-
+    global $db;
+    (!isset($_SESSION['id'])) ?: header('Location: /dashboard');
     if(isset($_POST['submit'])){
       if(isset($_POST['nombre'], $_POST['email'], $_POST['clave'])) {
         $nombre = trim($_POST['nombre']);
@@ -94,17 +117,18 @@ class PagesController
          (filter_var($email, FILTER_VALIDATE_EMAIL) == $email) ?: $errors[] = "El correo no es válido.";
          ($clave > 5) ?: $errors[] = "La contraseña debe tener 6 o más letras.";
          if(empty($errors)){
-           $consulta = App::get('db')->userInfo('usuarios', $email);
+           $consulta = $db->select('usuarios', 'id', eq('email', $email));
+
          }
-         (isset($consulta) && $consulta->rowCount() == 0) ? : $errors[] = "El correo  ya está en uso";
+         (!isset($consulta)) ? : $errors[] = "El correo  ya está en uso";
 
          if(empty($errors)){
-           $id = App::get('db')->guardar('usuarios',[
+           $db->insert('usuarios',[
              'nombre' => $_POST['nombre'],
              'email' => $_POST['email'],
              'clave' => $claveEncriptada
            ]);
-
+             $id = $db->getInsertId();
           session_regenerate_id();
           $_SESSION['autenticado'] = TRUE;
           $_SESSION['id'] = $id;

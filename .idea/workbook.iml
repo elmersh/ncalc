@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/smarty/smarty" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ezsql/ezsql" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/container" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

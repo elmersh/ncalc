@@ -3,12 +3,12 @@
 {include file="./head.tpl" title="gCalc - `$title|default:home`"}
 <body class="min-h-screen">
 <main class="w-full min-h-screen flex">
-    <aside class="flex min-w-max">
+    <aside class="flex min-w-max print:hidden print:text-red">
         {include file="./header.tpl"}
     </aside>
-    <main class="w-full min-h-screen bg-green-100/50 flex flex-col">
+    <main class="w-full min-h-screen bg-white flex flex-col">
 
-            {include file="inc/page-title.tpl" buttons=$buttons|default:false}
+            {include file="inc/page-title.tpl" url=$url|default:'' urlid=$urlid|default:'' btitle=$btitle|default: '' buttons=$buttons|default:false}
         <section class="w-full flex-1 py-8">
             <div class="container">
                 {block name=content}{/block}

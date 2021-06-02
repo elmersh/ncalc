@@ -4,6 +4,8 @@
     <include_path>
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/smarty/smarty" />
+      <path value="$PROJECT_DIR$/vendor/ezsql/ezsql" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
     </include_path>
   </component>
 </project>

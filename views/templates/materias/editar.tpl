@@ -1,17 +1,15 @@
 {extends file="inc/theme.tpl"}
-{$title = "Registro de materia"}
-{$buttons = true}
-{$url = '/materias/registrar'}
-{$btitle = 'Registrar materia'}
+{assign var="title" value = "Editando {$materia->nombre}"}
+{$buttons = false}
 
-{$active = 'materia'}
+{$active = 'materias'}
 {block name=content}
 <div class="sm:max-w-xl mx-auto">
 
-
+{if $smarty.session.id == $materia->id_usuario or $smarty.session.is_admin == true}
   <div class="mt-8 sm:mx-auto">
     <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-<form action="/materias/registrar" method="post" class="space-y-8 divide-y divide-gray-200">
+<form action="/materias/editar" method="post" class="space-y-8 divide-y divide-gray-200">
 
   <div class="space-y-8 divide-y divide-gray-200">
     <div>
@@ -29,7 +27,8 @@
             Nombre de materia
           </label>
           <div class="mt-1">
-            <input type="text" name="nombre" id="nombre" value="{if isset($smarty.post.nombre) }{$smarty.post.nombre}{/if}" autocomplete="family-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+             <input class="hidden" type="hidden" name="id" value="{$materia->id}">
+            <input type="text" name="nombre" id="nombre" value="{$materia->nombre}" autocomplete="nombre" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
           </div>
         </div>
 
@@ -38,20 +37,22 @@
             Codigo
           </label>
           <div class="mt-1">
-            <input id="codigo" name="codigo" type="text" {if isset($smarty.post.codigo) }value='{$smarty.post.codigo}'{/if} autocomplete="codigo" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+            <input id="codigo" name="codigo" type="text" value="{$materia->codigo}" autocomplete="codigo" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
           </div>
         </div>
-        <div class="sm:col-span-6">
+        <div class="sm:col-span-3">
+        <fieldset class="mt-3">
           <div class="mt-4 space-y-4">
             <div class="sm:col-span-4">
               <label for="horario" class="block text-sm font-medium text-gray-700">
                 Horario <span class="text-xs text-gray-500">ejemplo: lun-vi 8:00am a 9:30am</span>
               </label>
               <div class="mt-1">
-                <input type="text" name="horario" id="horario" value="{if isset($smarty.post.horario) }{$smarty.post.horario}{/if}" autocomplete="horario" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                <input type="text" name="horario" id="horario" value="{$materia->horario}" autocomplete="horario" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
               </div>
             </div>
           </div>
+        </fieldset>
         </div>
 
 
@@ -68,5 +69,8 @@
 </form>
 </div>
 </div>
+{else}
+No tienes permisos para ver esta página.
+{/if}
 </div>
 {/block}

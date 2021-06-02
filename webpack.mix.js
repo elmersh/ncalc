@@ -11,7 +11,7 @@ mix.js('src/js/app.js', 'js')
     .tailwind()
     .version()
     .browserSync({
-        proxy: "http://gcalc.test",
+      proxy: "http://ncalc.esh",
         files: [
             "views/templates/**/*.tpl",
             "./**/*.php"

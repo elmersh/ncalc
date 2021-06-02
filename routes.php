@@ -15,4 +15,16 @@
        $router->get('materias', 'MateriasController@home');
        $router->post('materias', 'MateriasController@borrar');
        $router->get('materias/registrar', 'MateriasController@registrar');
+       $router->get('materias/editar', 'MateriasController@editar');
+       $router->get('materias/mostrar', 'MateriasController@mostrar');
+       $router->post('materias/mostrar', 'MateriasController@mostrar');
        $router->post('materias/registrar', 'MateriasController@registrar');
+       $router->post('materias/editar', 'MateriasController@editar');
+
+       // Notas
+
+       $router->get('materias/notas/agregar', 'NotasController@agregar');
+       $router->post('materias/notas/agregar', 'NotasController@agregar');
+
+
+       $router->get('admin', 'AdminController@home');

@@ -14,7 +14,11 @@ module.exports = {
             xl: '8rem',
             '2xl': '12rem'
         },
-          center: true
+          center: true,
+        screens: {
+          'print': { 'raw': 'print' },
+          // => @media print { ... }
+        }
       }
   },
   variants: {
